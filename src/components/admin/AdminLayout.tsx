@@ -1,30 +1,36 @@
 
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import AdminSidebar from "./AdminSidebar";
-import { useAuth } from "@/hooks/useAuth";
+import React, { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import AdminSidebar from './AdminSidebar';
+import { adminSession } from '@/config/auth';
 
 const AdminLayout = () => {
-  const { isAuthenticated } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
-
+  
+  // Check session validity when the component mounts or location changes
   useEffect(() => {
-    // Redirect to login if not authenticated
-    if (!isAuthenticated) {
-      navigate("/admin/login");
+    // Skip auth check for login page
+    if (location.pathname === '/admin/login') return;
+    
+    if (!adminSession.isValid()) {
+      navigate('/admin/login', { 
+        state: { message: 'Please log in to access the admin area' } 
+      });
     }
-  }, [isAuthenticated, navigate]);
+  }, [location, navigate]);
 
-  if (!isAuthenticated) {
-    return null;
+  // Don't render sidebar for login page
+  if (location.pathname === '/admin/login') {
+    return <Outlet />;
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100">
       <AdminSidebar />
-      <main className="flex-1 p-6">
+      <div className="flex-1 overflow-auto">
         <Outlet />
-      </main>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User, LogIn } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
@@ -84,7 +85,7 @@ const Navbar = () => {
                   : "border-white text-white hover:bg-white hover:text-ckyc-charcoal"
               )}
             >
-              <User size={18} className="mr-2" /> Admin
+              <LogIn size={18} className="mr-2" /> Admin Login
             </Button>
           </Link>
         </div>
@@ -122,7 +123,7 @@ const Navbar = () => {
             </ul>
             <Link to="/admin/login" onClick={toggleMenu}>
               <Button className="bg-ckyc-gold hover:bg-ckyc-gold/80 text-white rounded-full">
-                <User size={18} className="mr-2" /> Admin
+                <LogIn size={18} className="mr-2" /> Admin Login
               </Button>
             </Link>
           </div>
